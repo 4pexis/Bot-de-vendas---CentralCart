@@ -7,7 +7,6 @@ const commands = [];
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
-// Carrega dinamicamente todos os arquivos de comando
 for (const folder of commandFolders) {
     const commandsPath = path.join(foldersPath, folder);
     const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -22,15 +21,12 @@ for (const folder of commandFolders) {
     }
 }
 
-// Inicializa o módulo REST para se comunicar com a API do Discord
 const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 
-// Função auto-executável para registrar os comandos
 (async () => {
     try {
         console.log(`Iniciando registro de ${commands.length} comandos de aplicação (/).`);
 
-        // O método put atualiza todos os comandos no servidor com o conjunto atual
         const data = await rest.put(
             Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
             { body: commands },
