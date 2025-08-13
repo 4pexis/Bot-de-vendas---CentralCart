@@ -3,10 +3,8 @@ const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 require('dotenv').config();
 
-// Cria uma nova instância do cliente do bot
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-// --- Carregador de Comandos ---
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
@@ -25,7 +23,6 @@ for (const folder of commandFolders) {
     }
 }
 
-// --- Carregador de Eventos ---
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
@@ -39,5 +36,4 @@ for (const file of eventFiles) {
     }
 }
 
-// Faz login no Discord com o token do seu bot
 client.login(process.env.DISCORD_TOKEN);
